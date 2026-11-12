@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reserva de Salas | Projeto Acadêmico</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/script.js" defer></script>
+</head>
+<body>
+  <header class="topo">
+    <div class="container linha-topo">
+      <div class="marca"><span class="marca-icone">RS</span><div><strong>Reserva de Salas</strong><small>Sistema acadêmico</small></div></div>
+      <nav aria-label="Navegação principal">
+        <button class="menu ativo" data-pagina="inicio">Início</button>
+        <button class="menu" data-pagina="salas">Salas</button>
+        <button class="menu" data-pagina="reservas">Reservas</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="aviso" class="aviso oculto" role="status" aria-live="polite"></div>
+
+    <section id="pagina-inicio" class="pagina">
+      <div class="destaque">
+        <div>
+          <span class="chamada">DESENVOLVIMENTO WEB III</span>
+          <h1>Organize salas e horários em um só lugar.</h1>
+          <p>Cadastre salas de estudo e laboratórios, reserve horários e acompanhe a disponibilidade dos ambientes.</p>
+          <div class="acoes-destaque">
+            <button class="botao principal" data-pagina="reservas">Nova reserva</button>
+            <button class="botao claro" data-pagina="salas">Ver salas</button>
+          </div>
+        </div>
+        <div class="figura-sala" aria-hidden="true"><span>📚</span><span>🗓️</span><span>💻</span></div>
+      </div>
+      <div class="indicadores">
+        <article class="indicador"><span>Salas cadastradas</span><strong id="total-salas">0</strong><small>Total de ambientes registrados</small></article>
+        <article class="indicador"><span>Salas disponíveis</span><strong id="total-disponiveis">0</strong><small>Ambientes ativos para reserva</small></article>
+        <article class="indicador"><span>Reservas ativas</span><strong id="total-reservas">0</strong><small>Agendamentos não cancelados</small></article>
+      </div>
+      <div class="cartao orientacoes">
+        <h2>Como começar</h2>
+        <div class="passos"><p><b>01.</b> Cadastre uma sala e seus recursos.</p><p><b>02.</b> Abra Reservas e selecione a sala.</p><p><b>03.</b> Informe data, horário e participantes.</p></div>
+        <p class="legenda">Uma mesma sala não pode ter reservas ativas que se sobreponham. Datas de feriados nacionais geram apenas um aviso.</p>
+      </div>
+    </section>
+
+    <section id="pagina-salas" class="pagina oculto">
+      <div class="titulo-pagina"><div><span class="chamada">AMBIENTES</span><h1>Cadastro de salas</h1><p>Gerencie salas de estudo e laboratórios.</p></div></div>
+      <div class="duas-colunas">
+        <section class="cartao formulario-cartao">
+          <h2 id="titulo-form-sala">Nova sala</h2>
+          <form id="form-sala">
+            <input type="hidden" name="id">
+            <label>Nome ou identificação <span>*</span><input name="nome" maxlength="80" required placeholder="Ex.: Laboratório 02"></label>
+            <label>Localização <span>*</span><input name="localizacao" maxlength="120" required placeholder="Ex.: Bloco B, 2º andar"></label>
+            <div class="form-linha">
+              <label>Capacidade máxima <span>*</span><input type="number" name="capacidade" min="1" step="1" required placeholder="20"></label>
+              <label>Situação <span>*</span><select name="situacao" required><option value="Disponível">Disponível</option><option value="Inativa">Inativa</option></select></label>
+            </div>
+            <label>Recursos disponíveis<input name="recursos" maxlength="250" placeholder="Ex.: Wi-Fi, Projetor, Computadores"></label>
+            <small class="legenda">Separe os recursos por vírgulas.</small>
+            <div class="form-acoes"><button class="botao principal" type="submit" id="salvar-sala">Cadastrar sala</button><button class="botao borda" type="button" id="cancelar-sala">Limpar</button></div>
+          </form>
+        </section>
+        <section class="cartao tabela-cartao">
+          <div class="cabecalho-cartao"><div><h2>Salas cadastradas</h2><small id="numero-salas">0 salas</small></div><input id="pesquisa-salas" type="search" aria-label="Pesquisar sala" placeholder="Pesquisar por nome..." class="pesquisa"></div>
+          <div class="tabela-rolagem"><table><thead><tr><th>Sala / Local</th><th>Capacidade</th><th>Recursos</th><th>Situação</th><th>Ações</th></tr></thead><tbody id="lista-salas"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="pagina-reservas" class="pagina oculto">
+      <div class="titulo-pagina"><div><span class="chamada">AGENDAMENTOS</span><h1>Reservas de ambientes</h1><p>Escolha o ambiente, a data e o período da atividade.</p></div></div>
+      <div class="duas-colunas">
+        <section class="cartao formulario-cartao">
+          <h2 id="titulo-form-reserva">Nova reserva</h2>
+          <form id="form-reserva">
+            <input type="hidden" name="id">
+            <label>Nome do aluno responsável <span>*</span><input name="aluno" maxlength="100" required placeholder="Nome completo"></label>
+            <label>E-mail <span>*</span><input name="email" type="email" maxlength="130" required placeholder="aluno@exemplo.com"></label>
+            <label>Sala <span>*</span><select name="salaId" id="sala-reserva" required><option value="">Selecione uma sala</option></select></label>
+            <label>Data da reserva <span>*</span><input name="data" id="data-reserva" type="date" required></label>
+            <div id="aviso-feriado" class="feriado neutro" role="status" aria-live="polite">Selecione a data para verificar feriados nacionais.</div>
+            <div class="form-linha"><label>Horário inicial <span>*</span><input name="inicio" type="time" required></label><label>Horário final <span>*</span><input name="fim" type="time" required></label></div>
+            <div class="form-linha"><label>Participantes <span>*</span><input name="participantes" type="number" min="1" step="1" required placeholder="4"></label><label>Status <span>*</span><select name="status"><option>Ativa</option><option>Cancelada</option></select></label></div>
+            <label>Finalidade <span>*</span><textarea name="finalidade" maxlength="250" required rows="3" placeholder="Ex.: Reunião de projeto, trabalho em grupo..."></textarea></label>
+            <div class="form-acoes"><button class="botao principal" type="submit" id="salvar-reserva">Cadastrar reserva</button><button class="botao borda" type="button" id="cancelar-reserva">Limpar</button></div>
+          </form>
+        </section>
+        <section class="cartao tabela-cartao">
+          <div class="cabecalho-cartao"><div><h2>Reservas cadastradas</h2><small id="numero-reservas">0 reservas</small></div></div>
+          <div class="filtros"><label>Data<input type="date" id="filtro-data"></label><label>Sala<select id="filtro-sala"><option value="">Todas as salas</option></select></label><label>Status<select id="filtro-status"><option value="">Todos</option><option>Ativa</option><option>Cancelada</option></select></label><button class="botao borda" type="button" id="limpar-filtros">Limpar filtros</button></div>
+          <div class="tabela-rolagem"><table><thead><tr><th>Aluno / Finalidade</th><th>Sala</th><th>Data e horário</th><th>Pessoas</th><th>Status</th><th>Ações</th></tr></thead><tbody id="lista-reservas"></tbody></table></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer><div class="container">Projeto acadêmico • Node.js + API REST + BrasilAPI</div></footer>
+</body>
+</html>

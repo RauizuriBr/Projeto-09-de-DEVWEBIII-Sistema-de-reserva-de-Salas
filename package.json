@@ -1,0 +1,12 @@
+{
+  "name": "projeto-reserva-salas-crud",
+  "version": "1.0.0",
+  "description": "Sistema de reservas de salas e laboratorios - Desenvolvimento Web III",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node --test testes/*.test.js"
+  },
+  "engines": { "node": ">=20" },
+  "license": "ISC"
+}
